@@ -24,6 +24,26 @@ spec = do
             calls <- readIORef ncalls
             calls `shouldBe` 1
 
+    describe "memoizeTime" $ do
+        it "calls our function only once every interval" $ do
+            ncalls <- newIORef (0 :: Int)
+            let fn :: Int -> IO Int
+                fn = \x -> do
+                    modifyIORef ncalls (+ 1)
+                    return $ x + 10
+            fn' <- memoizeTime (fromMicroseconds 200000) fn
+            ret1 <- fn' 10
+            ret1 `shouldBe` 20
+            ret2 <- fn' 10
+            ret2 `shouldBe` 20
+            calls <- readIORef ncalls
+            calls `shouldBe` 1
+            threadDelay 200000
+            ret3 <- fn' 10
+            ret3 `shouldBe` 20
+            calls' <- readIORef ncalls
+            calls' `shouldBe` 2
+
     describe "constMemoizeTime" $ do
         it "calls our function only once every interval" $ do
             ncalls <- newIORef (0 :: Int)
