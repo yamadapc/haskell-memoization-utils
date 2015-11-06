@@ -1,5 +1,5 @@
 name:                memoization-utils
-version:             0.1.0.0
+version:             0.1.0.1
 synopsis:            Utilities for memoizing functions
 -- description:
 homepage:            http://github.com/yamadapc/haskell-memoization-utils
