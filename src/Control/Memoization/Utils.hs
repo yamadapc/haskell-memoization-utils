@@ -22,7 +22,9 @@ memoize action = do
     return $ \arg -> do
         m <- takeMVar mm
         case Map.lookup arg m of
-            Just ret -> return ret
+            Just ret -> do
+                putMVar mm m 
+                return ret
             Nothing -> do
                 ret <- action arg
                 putMVar mm (Map.insert arg ret m)
