@@ -23,6 +23,14 @@ spec = do
             ret2 `shouldBe` 20
             calls <- readIORef ncalls
             calls `shouldBe` 1
+            ret3 <- fn' 20
+            ret3 `shouldBe` 30
+            calls <- readIORef ncalls
+            calls `shouldBe` 2
+            ret4 <- fn' 20
+            ret4 `shouldBe` 30
+            calls <- readIORef ncalls
+            calls `shouldBe` 2
 
     describe "memoizeTime" $ do
         it "calls our function only once every interval" $ do
